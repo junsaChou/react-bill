@@ -1,9 +1,15 @@
 import { Outlet} from 'react-router-dom'
+import { Button} from 'antd-mobile'
 const Layout = () =>{
     return(
         <div>
             <Outlet/>
-            <div> 我是layout组件</div>
+             我是layout组件
+            {/* 测试全局组件是否生效 */}
+            <Button color='primary'>测试全局</Button>
+                <div className='pupple'> 
+                    <Button color='primary'>测试局部</Button>
+            </div>
         </div>
     )
 
