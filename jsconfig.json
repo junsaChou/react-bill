@@ -1,0 +1,11 @@
+// vscode 别名 联想配置 例如 @/ 底下的
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@/*":[
+                "src/*"
+            ]
+        }
+    }
+}
