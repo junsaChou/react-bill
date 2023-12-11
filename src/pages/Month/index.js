@@ -24,13 +24,29 @@ const Month = () =>{
     const [ currentDate,setCurrentDate ] = useState(()=>{
         return  dayjs( new Date()).format('YYYY-MM')
     })
+    // 确认回调
+    const [ currentMonthList,setMoonthList ] = useState([]);
+    const monthResult = useMemo(()=>{
+        // 支出 /收入 /结余
+        const pay = currentMonthList.filter(item=>item.type === 'pay').reduce((a,c)=> a+ c.money,0) || 0
+        const income = currentMonthList.filter(item=>item.type === 'income').reduce((a,c)=> a+ c.money,0) || 0
+        return{
+            pay,
+            income,
+            total: pay + income
+        }
+
+    },[currentMonthList])
 
     const onConfirm = (date) =>{
         setDateVisible(false)
         // 其他逻辑
-
-        console.log( date)
         const formatDate = dayjs( date).format('YYYY-MM')
+        if( monthGroup.hasOwnProperty(formatDate) ){
+            setMoonthList(monthGroup[formatDate]) 
+        }else{
+            setMoonthList([])
+        }
         setCurrentDate(formatDate)
     }
 
@@ -53,7 +69,7 @@ const Month = () =>{
                     <div className='twoLineOverview'>
                         <div className='item'>
                             <div className='money'>
-                                { 100 }
+                                { monthResult.pay.toFixed(2) }
                             </div>
                             <div className='type'>
                                 支出
@@ -61,7 +77,7 @@ const Month = () =>{
                         </div>
                         <div className='item'>
                             <div className='money'>
-                                { 200 }
+                                {  monthResult.income.toFixed(2) }
                             </div>
                             <div className='type'>
                                 收入
@@ -69,7 +85,7 @@ const Month = () =>{
                         </div>
                         <div className='item'>
                             <div className='money'>
-                                { 100 }
+                                { monthResult.total.toFixed(2) }
                             </div>
                             <div className='type'>
                                 结余
