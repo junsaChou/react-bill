@@ -45,21 +45,42 @@
         {
             "type": "income",
             "money": 56,
-            "date": "2023-7-25 10:36:52",
+            "date": "2023-10-05 10:36:52",
             "useFor": "drinks",
             "id": 7
         },
         {
             "type": "pay",
             "money": -88,
-            "date": "2023-3-25 08:36:42",
+            "date": "2023-10-08 08:36:42",
+            "useFor": "drinks",
+            "id": 8
+        },
+        {
+            "type": "pay",
+            "money": 56,
+            "date": "2023-10-11 10:36:42",
+            "useFor": "food",
+            "id": 9
+        },
+        {
+            "type": "income",
+            "money": 56,
+            "date": "2023-12-05 10:36:52",
+            "useFor": "drinks",
+            "id": 7
+        },
+        {
+            "type": "pay",
+            "money": -88,
+            "date": "2023-12-08 08:36:42",
             "useFor": "drinks",
             "id": 8
         },
         {
             "type": "pay",
             "money": -56,
-            "date": "2023-3-25 10:36:42",
+            "date": "2023-12-11 10:36:42",
             "useFor": "food",
             "id": 9
         }

@@ -1,11 +1,14 @@
 import { NavBar,DatePicker} from 'antd-mobile'
-import { useMemo, useState } from 'react'
+// useMemo 计算
+import { useMemo, useState,useEffect } from 'react'
+import './index.scss'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 // 按月进行分组  lodash 两个参数 第一项是当前对象 第二项是逻辑
 import _ from 'lodash'
-import './index.scss'
+import DayBill from './components/DayBill'
+
 
 const Month = () =>{
     // 按月数据分组
@@ -38,17 +41,40 @@ const Month = () =>{
 
     },[currentMonthList])
 
+    // 初始化时 显示当前月的统计数据
+    useEffect(()=>{
+        const nowDate = dayjs().format('YYYY-MM');
+        console.log( nowDate)
+        console.log( monthGroup)
+        // 边界值控制
+        if( monthGroup[nowDate]){
+            setMoonthList( monthGroup[nowDate])
+        }
+ 
+    },[monthGroup])
+
     const onConfirm = (date) =>{
         setDateVisible(false)
         // 其他逻辑
         const formatDate = dayjs( date).format('YYYY-MM')
-        if( monthGroup.hasOwnProperty(formatDate) ){
+        // if( monthGroup.hasOwnProperty(formatDate) ){
+        if( monthGroup[formatDate]){
             setMoonthList(monthGroup[formatDate]) 
         }else{
             setMoonthList([])
         }
         setCurrentDate(formatDate)
     }
+    // 当前月 按照日来做分组
+    const dayGroup = useMemo(()=>{
+        // return 出去计算之后的值
+        const groupByData = _.groupBy(currentMonthList,(item)=> dayjs(item.date).format('MM-DD'))
+        const keys = Object.keys(groupByData)
+        return { 
+            groupByData,
+            keys 
+        }
+    },[currentMonthList])
 
     return (
         <div className='monthLyBill'>
@@ -68,42 +94,49 @@ const Month = () =>{
                     {/* 统计区域 */}
                     <div className='twoLineOverview'>
                         <div className='item'>
-                            <div className='money'>
+                            <span className='money'>
                                 { monthResult.pay.toFixed(2) }
-                            </div>
-                            <div className='type'>
+                            </span>
+                            <span className='type'>
                                 支出
-                            </div>
+                            </span>
                         </div>
                         <div className='item'>
-                            <div className='money'>
+                            <span className='money'>
                                 {  monthResult.income.toFixed(2) }
-                            </div>
-                            <div className='type'>
+                            </span>
+                            <span className='type'>
                                 收入
-                            </div>
+                            </span>
                         </div>
                         <div className='item'>
-                            <div className='money'>
+                            <span className='money'>
                                 { monthResult.total.toFixed(2) }
-                            </div>
-                            <div className='type'>
+                            </span>
+                            <span className='type'>
                                 结余
-                            </div>
+                            </span>
                         </div>
-                        {/*时间选择器 */}
-                        <DatePicker
-                            className='kaDate'
-                            title='记账日期'
-                            precision='month'
-                            visible={dateVisible}
-                            onCancel={()=>setDateVisible(false)}
-                            onConfirm={onConfirm}
-                            onClose={()=>setDateVisible(false)}
-                            max={ new Date()}
-                            />
                     </div>
+                    {/*时间选择器 */}
+                    <DatePicker
+                        className='kaDate'
+                        title='记账日期'
+                        precision='month'
+                        visible={dateVisible}
+                        onCancel={()=>setDateVisible(false)}
+                        onConfirm={onConfirm}
+                        onClose={()=>setDateVisible(false)}
+                        max={ new Date()}
+                        />
                 </div>
+                {/* 单日列表统计 */}
+                {
+                    dayGroup.keys.map(key=>{
+                        return    <DayBill key={key} date={key} billList={ dayGroup.groupByData[key] }/>
+                    })
+                }
+             
             </div>
         </div>
     )
