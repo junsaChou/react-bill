@@ -1,10 +1,22 @@
 import { NavBar,DatePicker} from 'antd-mobile'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
+import { useSelector } from 'react-redux'
+// 按月进行分组  lodash 两个参数 第一项是当前对象 第二项是逻辑
+import _ from 'lodash'
 import './index.scss'
 
 const Month = () =>{
+    // 按月数据分组
+    const billList = useSelector( state => state.bill.billList )
+    /* 数据的二次处理*/
+    const monthGroup = useMemo(()=>{
+        // return 出去计算之后的值
+        return _.groupBy(billList,(item)=> dayjs(item.date).format('YYYY-MM'))
+    },[billList])
+
+    console.log( monthGroup)
     // 控制弹窗的打开和关闭
     const [ dateVisible,setDateVisible ] = useState(false)
 
