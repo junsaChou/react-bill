@@ -21,11 +21,11 @@ import {
       title: '记账',
       icon: <AddCircleOutline />,
     },
-    {
-      key: '/year',
-      title: '年度账单',
-      icon: <CalculatorOutline />
-    }
+    // {
+    //   key: '/year',
+    //   title: '年度账单',
+    //   icon: <CalculatorOutline />
+    // }
   ]
 const Layout = () =>{
   const dispatch = useDispatch();
