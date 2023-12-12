@@ -131,8 +131,9 @@ body{
                     }
                 }
                 .item.selected{
-                    color: #fff;
-                    background-color: var(--ka-bg-color);
+                    // color: #fff;
+                    color: var(--ka-color);
+                    // border-color: var(--ka-border-color);
                     border-radius: 5px;
                     background: var(--ka-bg-color);
 
